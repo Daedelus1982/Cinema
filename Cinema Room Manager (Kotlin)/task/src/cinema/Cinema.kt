@@ -1,19 +1,40 @@
 package cinema
 
 fun main() {
+    val cinemaScreen = createScreen()
+    while (true) {
+        println()
+        println(displayMenu())
+        when(readln().toInt()) {
+            2 -> bookSeat(cinemaScreen)
+            1 -> println("\n$cinemaScreen")
+            0 -> return
+        }
+    }
+}
+
+fun createScreen(): CinemaScreen {
     println("Enter the number of rows:")
     val rows = readln().toInt()
     println("Enter the number of seats in each row:")
     val seatsPerRow = readln().toInt()
-    val cinemaScreen = CinemaScreen(rows, seatsPerRow)
-    println("\n$cinemaScreen\n")
-    println("Enter a row number:")
+    return CinemaScreen(rows, seatsPerRow)
+}
+
+fun bookSeat(cinemaScreen: CinemaScreen) {
+    println("\nEnter a row number:")
     val bookingRow = readln().toInt()
     println("Enter a seat number in that row:")
     val bookingSeat = readln().toInt()
     cinemaScreen.bookSeat(bookingRow, bookingSeat)
-    println("\nTicket price: $${ScreenCalculator(cinemaScreen).cost(bookingRow)}\n")
-    println(cinemaScreen)
+    println("Ticket price: $${ScreenCalculator(cinemaScreen).cost(bookingRow)}")
+}
+
+fun displayMenu(): String {
+    return "" +
+    "1. Show the seats\n" +
+    "2. Buy a ticket\n" +
+    "0. Exit"
 }
 
 data class CinemaScreen(val rows: Int, val seatsPerRow: Int) {
